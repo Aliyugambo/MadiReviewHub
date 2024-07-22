@@ -2,23 +2,24 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const UserSchema = new mongoose.Schema({
-  email: { 
-    type: String, 
-    required: true, 
-    unique: true 
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
   },
-  password: { 
-    type: String, 
-    required: true 
+  email: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  name: { 
-    type: String, 
-    required: true 
+  password: {
+    type: String,
+    required: true,
   },
 });
 
-UserSchema.pre('save', async function(next) {
+// Password hashing middleware
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
@@ -27,4 +28,11 @@ UserSchema.pre('save', async function(next) {
   next();
 });
 
-module.exports = mongoose.model('User', UserSchema);
+// Password comparison method
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
