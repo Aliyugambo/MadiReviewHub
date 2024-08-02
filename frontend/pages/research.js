@@ -9,7 +9,7 @@ const Research = () => {
   useEffect(() => {
     const fetchResearch = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/research/findings');
+        const response = await axios.get('https://madireviewhub.onrender.com/api/research/findings');
         setResearch(response.data);
       } catch (error) {
         console.error(error);

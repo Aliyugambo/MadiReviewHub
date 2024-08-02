@@ -44,9 +44,24 @@ exports.fetchResearchFindings = async (req, res) => {
         retmode: 'json',
       },
     });
-
-    console.log(summaryResponse.data);
-    res.json(summaryResponse.data);
+  const data= summaryResponse.data.result;
+  // res.json(data);
+const articles = Object.keys(data)
+.filter(key => key !== 'uids')
+.map(key => {
+  const article = data[key];
+  return {
+    imageUrl: article.image ? article.image[0]: 'defaultImageUrl.jpg',
+    title: article.title,
+    subtitle: article.sorttitle, // or other appropriate field
+    avatarUrl: article.avatarUrl || 'defaultAvatarUrl.jpg',
+    author: article.lastauthor,
+    publishedDate: article.pubdate,
+    link: article.elink ? article.elink[0].url : `https://pubmed.ncbi.nlm.nih.gov/${key}/`,
+  };
+});
+// console.log(articles);
+res.json(articles);
   } catch (error) {
     console.error('Error fetching research articles:', error);
   }

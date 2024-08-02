@@ -12,7 +12,7 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/auth/profile', {
+        const response = await axios.get('https://madireviewhub.onrender.com/api/auth/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProfile(response.data);
@@ -29,10 +29,16 @@ const Profile = () => {
     return <div>Loading...</div>;
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    router.push('/');
+  };
   return (
     <Layout>
       <h1>{profile.name}</h1>
       <p>{profile.email}</p>
+      <button onClick={handleLogout}>Logout</button>
     </Layout>
   );
 };

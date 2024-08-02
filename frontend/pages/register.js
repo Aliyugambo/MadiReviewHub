@@ -6,6 +6,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import Notification from '../components/Notification';
 import Layout from '../components/Layout';
+import { alpha } from '@mui/material';
+import Carousels from '../components/Carousel';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -21,7 +23,7 @@ const Register = () => {
     setError('');
     setSuccess('');
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
+      const response = await axios.post('https://madireviewhub.onrender.com/api/auth/register', { name, email, password });
       localStorage.setItem('token', response.data.token);
       setSuccess('Registration successful. Redirecting to Login...');
       setTimeout(() => {
@@ -33,35 +35,19 @@ const Register = () => {
     }
   };
   const handleClickShowPassword = () => setShowPassword(!showPassword);
-
-  const items = [
-    {
-      img: '/images/login-illustration1.png',
-      alt: 'Login illustration 1',
-      text: 'AI POWERED RETAIL ENGINE FOR Point of Sale & Terminals'
-    },
-    {
-      img: '/images/login-illustration2.png',
-      alt: 'Login illustration 2',
-      text: 'Enhance Customer Experience with Efficient Solutions'
-    },
-    {
-      img: '/images/login-illustration3.png',
-      alt: 'Login illustration 3',
-      text: 'Innovative Technologies for Modern Businesses'
-    },
-    {
-      img: '/images/login-illustration4.png',
-      alt: 'Login illustration 3',
-      text: 'Innovative Technologies for Modern Businesses'
-    },
-    {
-      img: '/images/login-illustration5.png',
-      alt: 'Login illustration 3',
-      text: 'Innovative Technologies for Modern Businesses'
-    }
-  ];
   return (
+    <Box
+    id="hero"
+    sx={(theme) => ({
+      width: '100%',
+      backgroundImage:
+        theme.palette.mode === 'light'
+          ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
+          : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
+      backgroundSize: '100% 20%',
+      backgroundRepeat: 'no-repeat',
+    })}
+  >
     <Layout>
     <Box 
       sx={{ 
@@ -137,33 +123,16 @@ const Register = () => {
                   </Grid>
                 </Grid>
               </form>
-              {error && <Notification message={error} type="error" />}
-              {success && <Notification message={success} type="success" />}
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Carousel autoPlay={true} interval={3000} indicators={false}>
-              {items.map((item, i) => (
-                <Box key={i} sx={{ position: 'relative', textAlign: 'center' }}>
-                  <img src={item.img} alt={item.alt} style={{ width: '100%', height: 'auto' }} />
-                  <Box sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    color: 'white',
-                    p: 2
-                  }}>
-                  </Box>
-                    <Typography variant="h6">{item.text}</Typography>
-                </Box>
-              ))}
-            </Carousel>
+          <Carousels />
           </Grid>
         </Grid>
       </Container>
     </Box>
   </Layout>
+</Box>
   );
 };
 

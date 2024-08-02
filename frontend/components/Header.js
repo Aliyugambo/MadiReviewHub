@@ -5,6 +5,12 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useTheme } from '@mui/material/styles';
 import { ColorModeContext } from '../pages/_app';
 
+const logoStyle = {
+  width: '140px',
+  height: 'auto',
+  cursor: 'pointer',
+};
+
 const Header = () => {
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
@@ -13,7 +19,7 @@ const Header = () => {
     <AppBar position="static" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-        <Link href="/" variant="body2" sx={{ textDecoration: 'none' }}><img src='/images/logo.png' alt='logo' style={{ width: '8%' }} /></Link>
+        <Link href="/" variant="body2" sx={{ textDecoration: 'none' }}><img src='/images/logo.png' alt='logo' style={logoStyle} /></Link>
         </Typography>
         <IconButton onClick={colorMode.toggleColorMode} color="inherit">
           {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
